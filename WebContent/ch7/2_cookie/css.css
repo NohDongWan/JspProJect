@@ -1,0 +1,11 @@
+body{
+	margin-top : 100px;
+	text-align : center
+}
+
+fieldset{
+	line-height : 300px;
+	margin : 0 auto;
+	width : 500px;
+	height : 300px;
+}
