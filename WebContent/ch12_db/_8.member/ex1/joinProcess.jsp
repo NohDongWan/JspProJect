@@ -14,9 +14,10 @@
 		String email = request.getParameter("email");
 
 
-		Connection conn = null;
 		String sql = "insert into member(id,password,name,age,gender,email) values(?,?,?,?,?,?)";
 		
+		
+		Connection conn = null;
 		PreparedStatement pstmt = null;
 		try{
 			Context init = new InitialContext();
@@ -25,8 +26,17 @@
 					
 			int age2 = Integer.parseInt(age);
 			
+			pstmt = conn.prepareStatement("select * from member where id = ?");
+			pstmt.setString(1, id);
+			ResultSet rs = pstmt.executeQuery();
+			if(rs.next()){
+				out.println("<script>");
+				out.println("alert('중복된 아이디입니다.')");
+				out.println("history.back();");
+				out.println("</script>");
+			}else{
+			pstmt.close();
 			pstmt = conn.prepareStatement(sql);
-			
 			pstmt.setString(1,id );
 			pstmt.setString(2, pass);
 			pstmt.setString(3, name);
@@ -34,6 +44,8 @@
 			pstmt.setString(5, gender);
 			pstmt.setString(6, email);
 			int result = pstmt.executeUpdate();
+			
+			
 			
 			if(result != 0){
 				out.println("<script>");
@@ -47,7 +59,7 @@
 				out.println("location.href = 'joinForm.jsp'");
 				out.println("</script>");
 			}
-			
+			}
 		}catch(Exception e){
 			e.printStackTrace();
 		}finally{

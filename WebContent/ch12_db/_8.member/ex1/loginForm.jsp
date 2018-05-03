@@ -5,6 +5,8 @@
 <head>
 <title>Insert title here</title>
 <script src = 'js/jquery-3.3.1.js'></script>
+
+
 <script>
 	$(document).ready(function(){
 		$('.join').click(function(){

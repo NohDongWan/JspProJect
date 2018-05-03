@@ -7,6 +7,7 @@
 
 
 	<%
+	
 	String id =request.getParameter("id");
 	Connection conn = null;
 	String sql = "select * from member where id = ?";
@@ -23,6 +24,9 @@
 		pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1,id);
 		rs = pstmt.executeQuery();
+		
+		
+		
 		
 		out.println("<table border = 1>");
 		while(rs.next()){

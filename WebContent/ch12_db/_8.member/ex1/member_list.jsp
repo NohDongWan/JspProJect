@@ -5,6 +5,7 @@
 <%@ page import="javax.sql.*"%>
 <%@ page import="javax.naming.*"%>
 
+
 	
     
 <!DOCTYPE html>
@@ -14,6 +15,8 @@
 </head>
 <body>
 <%
+
+String sid = (String)session.getAttribute("id");
 Connection conn = null;
 String sql = "select id from member";
 
@@ -28,6 +31,13 @@ try{
 	
 	pstmt = conn.prepareStatement(sql);
 	rs = pstmt.executeQuery();
+	
+	if(sid == null){
+		out.println("<script>");
+		out.println("alert('로그인을하셔야합니다.')");
+		out.println("location.href = 'loginForm.jsp'");
+		out.println("</script>");
+	}
 	
 	out.println("<table border = 1>");
 	out.println("<tr><td colspan = 2>회원목록</td></tr>");

@@ -1,6 +1,7 @@
 <!-- 이름은 내가 주고싶은데로 줘도된다  -->
 <Context>
-	<Resource name = "jdbc/OracleDB"			
+	<Resource 
+	name = "jdbc/OracleDB"			
 	auth = "Container"
 	type = "javax.sql.DataSource"
 	username = "scott"

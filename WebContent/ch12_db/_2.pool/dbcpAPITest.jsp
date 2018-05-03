@@ -1,6 +1,6 @@
 <%--
 	1. Java Naming and Directory Interface(JNDI) 는
-	  Java 애플리케이션이 네트워크에서 이름(name) 을 이용하여
+	  Java 애플리케이션이 네트워크에서 이름(name) 을 이용하여				이름을 이용하여
 	  객체를 찾고 가져올 수 있도록 하는 표준 API 입니다.
 	  
 	  * JNDI 를 사용하면 Java 프로그램이나 JSP 페이지에서
