@@ -4,13 +4,13 @@
 <html>
 <head>
 <title>Insert title here</title>
-<script src = "http://code.jquery.com/jquery-3.3.1.js"></script>
+<script src = js/jquery-3.3.1.js></script>
 <script src = joinForm.js></script>
 
 </head>
 <body>
 
-<form name = joinform action = joinProcess.net
+<form name = joinform action = joinProcess.jsp
 		method = "post">
 				<h1>회원가입 페이지</h1>
 	<hr>

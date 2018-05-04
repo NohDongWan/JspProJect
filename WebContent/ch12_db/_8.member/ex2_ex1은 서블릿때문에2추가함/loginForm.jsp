@@ -4,20 +4,20 @@
 <html>
 <head>
 <title>Insert title here</title>
-<script src = "http://code.jquery.com/jquery-3.3.1.js"></script>
+<script src = 'js/jquery-3.3.1.js'></script>
 
 
 <script>
 	$(document).ready(function(){
 		$('.join').click(function(){
-		location.href = "joinForm.net";			
+		location.href = ("joinForm.jsp");			
 		})
 	})
 
 </script>
 </head>
 <body>
-	<form name = loginform action = "loginProcess.net"
+	<form name = loginform action = "loginProcess.jsp"
 		method = post><h1>로그인</h1>
 		<hr>
 		
