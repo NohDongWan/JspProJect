@@ -1,3 +1,6 @@
+
+//나를 부른건 FrontController다.
+
 package ch12;
 
 import java.io.PrintWriter;
@@ -21,14 +24,13 @@ public class LoginProcessAction implements Action {
 
 		MemberDAO mdao = new MemberDAO();
 		int result = mdao.isId(id, pass);
-		System.out.println("결과는 " + result);
-
-		if (result == 1) {
-			HttpSession session = request.getSession();
+		System.out.println("결과는 " + result);		//로그인성공후 result 1 들어옴
+		if (result == 1) {								//로그인이 성공했다면
+			HttpSession session = request.getSession();		//세션을 쓰기위한 
 			// 로그인 성공
-			session.setAttribute("id", id);
-			forward.setRedirect(false);
-			forward.setPath("/ch12_db/_8.member/ex1/main.jsp");
+			session.setAttribute("id", id);					//세션값을 담아주고
+			forward.setRedirect(false);						//리다이렉트로 안할꺼다.
+			forward.setPath("/ch12_db/_8.member/ex1/main.jsp");		//
 			return forward;
 		} else {
 			String message = "";

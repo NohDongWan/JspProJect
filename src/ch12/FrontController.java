@@ -16,8 +16,8 @@ public class FrontController extends HttpServlet {
 	protected void doProcess(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		String RequestURI = request.getRequestURI();
-		System.out.println("RequestURI = " + RequestURI); // 1. uri 값얻어오고
+		String RequestURI = request.getRequestURI();		// 1. uri 값얻어오고
+		System.out.println("RequestURI = " + RequestURI); 
 
 		// getContextPath() : 컨텍스트 경로가 반환됩니다.
 		// contextPath는 "/0420_jsp"가 반환됩니다.
@@ -34,36 +34,84 @@ public class FrontController extends HttpServlet {
 		ActionForward forward = null;
 		Action action = null; // action 초기값 해주고
 
-		if (command.equals("/loginForm.net")) { // 여기서이름정해주고
+		if (command.equals("/loginForm.net")) { 									//1. 이걸로들어오면
 			forward = new ActionForward();
-			forward.setRedirect(false); // 주소변경없이 jsp 페이지 이동
-			forward.setPath("/ch12_db/_8.member/ex1/loginForm.jsp"); // 여기까지는 설정만 해놓는거다
+			forward.setRedirect(false); // 리다이렉트 안쓸꺼다 포워드로 주소변경 없이갈꺼다.라는뜻
+			forward.setPath("/ch12_db/_8.member/ex1/loginForm.jsp"); //리다이렉트로 이주소를썻다면 주소값이 이값으로 변경된다.
 
-		} else if (command.equals("/loginProcess.net")) {
-			action = new LoginProcessAction();
+		} else if (command.equals("/loginProcess.net")) {			//이주소로 또 들어오면
+			action = new LoginProcessAction();						//
+			try {
+				forward = action.execute(request, response);		//loginProcessAction 에서 포워드값을 리턴받아온다.
+																		// 그리고 맨아래 if 문으로 내려간뒤
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}else if (command.equals("/member_list.net")) {
+			action = new ListAction();
 			try {
 				forward = action.execute(request, response);
 
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+		}else if (command.equals("/member_info.net")) {
+			action = new Member_infoAction();
+			try {
+				forward = action.execute(request, response);
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}else if (command.equals("/member_delete.net")) {
+			action = new Member_deleteAction();
+			try {
+				forward = action.execute(request, response);
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}else if (command.equals("/updateForm.net")) {
+			action = new Member_updateAction();
+			try {
+				forward = new ActionForward();
+				forward = action.execute(request, response);
+				forward.setRedirect(false); // 주소변경없이 jsp 페이지 이동
+				forward.setPath("/ch12_db/_8.member/ex1/updateForm.jsp");
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}else if (command.equals("/updateProcess.net")) {
+			action = new UpdateProcessAction();
+			try {
+				forward = action.execute(request, response);
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 
-		if (command.equals("/joinForm.net")) {
+		else if (command.equals("/joinForm.net")) {
 			forward = new ActionForward();
 			forward.setRedirect(false);
 			forward.setPath("/ch12_db/_8.member/ex1/joinForm.jsp");
-			}
-		
-			if (command.equals("/joinProcess.net")) {
+			}else if (command.equals("/joinProcess.net")) {
 				forward = new ActionForward();
 				forward.setRedirect(false);
 				forward.setPath("/ch12_db/_8.member/ex1/joinProcess.jsp");
+			}else if(command.equals("/main.net")) { 									//1. 이걸로들어오면
+				forward = new ActionForward();
+				forward.setRedirect(false); // 주소변경없이 jsp 페이지 이동
+				forward.setPath("/ch12_db/_8.member/ex1/main.jsp");
 			}
+			
+		
+		
+		
 
-			if (forward != null) {
+			if (forward != null) {									//리턴받아온 포워드 값이 널이아니라면
 				if (forward.isRedirect()) {
-					response.sendRedirect(forward.getPath());
+					response.sendRedirect(forward.getPath());		
 				} else {
 					RequestDispatcher dispatcher = request.getRequestDispatcher(forward.getPath());
 					dispatcher.forward(request, response);

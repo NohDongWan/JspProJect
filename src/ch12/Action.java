@@ -8,7 +8,7 @@ import javax.servlet.http.*;
 //ActionForward : ¹ÝÈ¯Çü
 
 public interface Action{
-		public ActionForward execute(HttpServletRequest requset
+		public ActionForward execute(HttpServletRequest request
 													,HttpServletResponse response)
 		throws Exception;
 	}

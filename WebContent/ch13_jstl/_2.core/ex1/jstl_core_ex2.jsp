@@ -34,7 +34,7 @@
  	
 	<!-- 배열의 인덱스 2부터 3까지의 내용을 출력합니다.
 		  참조할 변수의 개수를 제한합니다.  -->
-	<c:forEach var="name" items="${nameList}" begin="2" end="3">
+	<c:forEach var="name" items="${nameList}" begin="0" end="0">
 		<li>${name}</li>
 	</c:forEach>		  
 	

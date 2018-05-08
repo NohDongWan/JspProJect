@@ -4,67 +4,33 @@
 <%@ page import="java.sql.*"%>
 <%@ page import="javax.sql.*"%>
 <%@ page import="javax.naming.*"%>
-
-
-	<%
-	
-	String id =request.getParameter("id");
-	Connection conn = null;
-	String sql = "select * from member where id = ?";
-	
-	PreparedStatement pstmt = null;
-	ResultSet rs = null;
-	
-	
-	try{
-		Context init = new InitialContext();
-		DataSource ds = (DataSource) init.lookup("java:comp/env/jdbc/OracleDB");
-		conn = ds.getConnection();
-		
-		pstmt = conn.prepareStatement(sql);
-		pstmt.setString(1,id);
-		rs = pstmt.executeQuery();
-		
-		
-		
-		
-		out.println("<table border = 1>");
-		while(rs.next()){
-			out.print("<tr><td>ID</td><td>"+rs.getString(1)+ "</td></tr>");
-			out.print("<tr><td>비번</td><td>"+rs.getString(2)+ "</td></tr>");
-			out.print("<tr><td>이름</td><td>"+rs.getString(3)+ "</td></tr>");
-			out.print("<tr><td>나이</td><td>"+rs.getInt(4)+ "</td></tr>");
-			out.print("<tr><td>성별</td><td>"+rs.getString(5)+ "</td></tr>");
-			out.print("<tr><td>이메일</td><td>"+rs.getString(6)+ "</td></tr>");
-			out.println("");
-		}
-		out.println("</table>");
-	}catch(Exception e){
-		e.printStackTrace();
-	}finally{
-		if(rs != null)try{rs.close();}
-		catch(SQLException ex){ex.printStackTrace();}
-		if(pstmt !=null)
-			try{pstmt.close();}		//객체를 사용하고 메모리에 반환합니다. //메모리 낭비를 막을 수 있습니다.
-			catch(SQLException ex){ex.printStackTrace();}
-			if(conn != null)
-				try{conn.close();}
-			catch(SQLException ex){ex.printStackTrace();}
-	}
-
-	
-	
-	%>
-
-    
-    
-    
+<%@ taglib prefix = "c"
+				uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
 <title>Insert title here</title>
 </head>
 <body>
+    <jsp:include page="header.jsp"></jsp:include>
+    <table border = 1> 
+    	<caption>회원 정보</caption>
+   		<c:set var = "m" value = "${memberinfo}"/>
+		<tr><td>아이디</td><td>${m.id}</td></tr>
+		<tr><td>비밀번호</td><td>${m.password}</td></tr>
+		<tr><td>이름</td><td>${m.name}</td></tr>
+		<tr><td>나이</td><td>${m.age}</td></tr>
+		<tr><td>성별</td><td>${m.gender}</td></tr>
+		<tr><td>주소</td><td>${m.email}</td></tr>
+	<tr>
+		<td colspan = 2>
+		<a href="member_list.net">리스트로 돌아가기</a></td>
+	</tr>		   	
+    </table>
+    
+    
+    
+
 
 </body>
 </html>

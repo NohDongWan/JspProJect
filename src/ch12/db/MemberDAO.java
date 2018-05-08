@@ -15,6 +15,8 @@ package ch12.db;
 import java.sql.*;
 import javax.sql.*;
 import javax.naming.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MemberDAO {
 	DataSource ds;
@@ -35,46 +37,208 @@ public class MemberDAO {
 		}
 	}
 
-	public int isId(String id,String pass) {
+	public int isId(String id, String pass) {
 		try {
-			con = ds.getConnection();
+			con = ds.getConnection();					//연결 완료
 			System.out.println("getConnection");
-			String sql = 
-					"select id,password from member where id = ? ";
+			String sql = "select id,password from member where id = ? ";
 			pstmt = con.prepareStatement(sql);
-			pstmt.setString(1,id);
+			pstmt.setString(1, id);
 			rs = pstmt.executeQuery();
-			
-			if(rs.next()) {
-				if(rs.getString(2).equals(pass)) {				//getString rs 만 쓸수 있다. 결과를 불러오기때문에.
-					result = 1;		//아이디와 비밀번호가 일치하는 경우
-				}else {
-					result = 0;			//비밀번호가 일치하지 않는 경우
+
+			if (rs.next()) {			//결과가 있다면.
+				if (rs.getString(2).equals(pass)) { // 결과 rs 안에있는 두번째 칼럼데이터가 로그인폼에서 입력한 패스워드와 값이 같냐..
+					result = 1; // 아이디와 비밀번호가 일치하는 경우
+				} else {
+					result = 0; // 비밀번호가 일치하지 않는 경우
+				}
+			} else {
+				result = -1; // 아이디가 존재하지 않는 경우
 			}
-			}else {
-				result = -1;			//아이디가 존재하지 않는 경우
-				}
-		}catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
-		}finally{
-				if(rs !=null) {
-					try {
-						rs.close();
-					}catch(SQLException sq) {sq.printStackTrace();}
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException sq) {
+					sq.printStackTrace();
 				}
-				if(pstmt != null) {
-					try {
-						pstmt.close();
-					}catch(SQLException sq) {sq.printStackTrace();}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException sq) {
+					sq.printStackTrace();
 				}
-				if(con != null) {
-					try {
-						con.close();
-					}catch(SQLException sq) {sq.printStackTrace();}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException sq) {
+					sq.printStackTrace();
 				}
+			}
 		}
-				return result;
-				
-				}//isID end
+		return result;
+
 	}
 
+	public List<Member> getList() {
+		List<Member> list = new ArrayList<Member>();	//리스트로 담 아주기위해서 리스트형을 선언한다.
+		try {
+			con = ds.getConnection();
+
+			String sql = "select * from member";
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				Member m = new Member();
+				m.setId(rs.getString("id"));
+				m.setPassword(rs.getString(2));
+				m.setName(rs.getString(3));
+				m.setAge(rs.getInt(4));
+				m.setGender(rs.getString(5));
+				m.setEmail(rs.getString(6));
+				list.add(m);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException sq) {
+					sq.printStackTrace();
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException sq) {
+					sq.printStackTrace();
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException sq) {
+					sq.printStackTrace();
+				}
+			}
+		}
+
+		return list;
+	}
+
+	public Member member_info(String id) {
+		Member m = new Member();
+		try {
+			con = ds.getConnection();
+
+			String sql = "select * from member where id= ? ";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, id);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				m.setId(rs.getString(1));
+				m.setPassword(rs.getString(2));
+				m.setName(rs.getString(3));
+				m.setAge(rs.getInt(4));
+				m.setGender(rs.getString(5));
+				m.setEmail(rs.getString(6));
+
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException sq) {
+					sq.printStackTrace();
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException sq) {
+					sq.printStackTrace();
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException sq) {
+					sq.printStackTrace();
+				}
+			}
+		}
+		return m;
+	}
+
+	public void delete(String id) {
+
+		try {
+			con = ds.getConnection();
+			String sql = "delete from member where id = ? ";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, id);
+			pstmt.executeUpdate();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException sq) {
+					sq.printStackTrace();
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException sq) {
+					sq.printStackTrace();
+				}
+			}
+		}
+	}
+
+	public int update(Member m) {
+
+		try {
+			con = ds.getConnection();
+			String sql = "update member set name = ?, age = ?, gender = ? , email = ? where id = ? ";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, m.getName());
+			pstmt.setInt(2, m.getAge());
+			pstmt.setString(3, m.getGender());
+			pstmt.setString(4, m.getEmail());
+			pstmt.setString(5, m.getId());
+			result = pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException sq) {
+					sq.printStackTrace();
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException sq) {
+					sq.printStackTrace();
+				}
+			}
+		}
+		return result;
+	}
+
+}
