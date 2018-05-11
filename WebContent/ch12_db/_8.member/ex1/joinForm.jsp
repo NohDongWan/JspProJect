@@ -5,7 +5,17 @@
 <head>
 <title>Insert title here</title>
 <script src = "http://code.jquery.com/jquery-3.3.1.js"></script>
-<script src = joinForm.js></script>
+ <script>								/*  일부로 폼아래다하는거다 폼먼저읽고 이게 입력되라고*/
+ 
+ $(document).ready(function(){
+	$('form').submit(function(){
+		if(!$.isNumeric($("input[name='age']").val())){
+			alert("나이는 숫자를 입력하세요");
+			return false;
+		}
+	})
+ })
+	</script>
 
 </head>
 <body>

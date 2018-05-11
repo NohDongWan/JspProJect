@@ -78,7 +78,7 @@
     					attachment : 브라우저는 해당 Content 를 처리하지 않고, 다운로드 하게 됩니다.
     	*/
     	
-    	//content-Disposition 이란 content 브라우저가 어떻게 처리도ㅓㅣ어야 하는지 나타낸다. 
+    	//content-Disposition 이란 content 브라우저가 어떻게 처리되어야 하는지 나타낸다. 
     	response.setHeader("Content-Disposition","attachment; filename = " + sEncoding);		//response 는 요청에 대해 응답을 전달해주는 객체이다 
     			
     	/*  

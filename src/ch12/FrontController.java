@@ -89,16 +89,32 @@ public class FrontController extends HttpServlet {
 			}catch (Exception e) {
 				e.printStackTrace();
 			}
+		}else if (command.equals("/logOut.net")) {
+			action = new LogoutAction();
+			try {
+				forward = action.execute(request, response);
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
+		
+		
+		
 
 		else if (command.equals("/joinForm.net")) {
 			forward = new ActionForward();
 			forward.setRedirect(false);
 			forward.setPath("/ch12_db/_8.member/ex1/joinForm.jsp");
+			
+			
 			}else if (command.equals("/joinProcess.net")) {
-				forward = new ActionForward();
-				forward.setRedirect(false);
-				forward.setPath("/ch12_db/_8.member/ex1/joinProcess.jsp");
+				action = new JoinProcessAction();
+				try {
+				forward = action.execute(request, response);
+				}catch (Exception e) {
+					e.printStackTrace();
+				}
+				
 			}else if(command.equals("/main.net")) { 									//1. 이걸로들어오면
 				forward = new ActionForward();
 				forward.setRedirect(false); // 주소변경없이 jsp 페이지 이동

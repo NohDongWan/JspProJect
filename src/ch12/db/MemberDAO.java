@@ -241,4 +241,48 @@ public class MemberDAO {
 		return result;
 	}
 
+	
+	
+	
+	
+	public int insert(Member m) {
+		int result= 0;
+		try {
+			con = ds.getConnection();
+			String sql = "insert into member values(?,?,?,?,?,?)";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, m.getId());
+			pstmt.setString(2, m.getPassword());
+			pstmt.setString(3, m.getName());
+			pstmt.setInt(4, m.getAge());
+			pstmt.setString(5, m.getGender());
+			pstmt.setString(6, m.getEmail());
+			result = pstmt.executeUpdate();
+			
+			
+			//primary key 제약 조건 위반했을 경우 발생하는에러 
+		}catch(java.sql.SQLIntegrityConstraintViolationException e) {
+			result = 0;
+			System.out.println("아이디중복입니다.");
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException sq) {
+					sq.printStackTrace();
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException sq) {
+					sq.printStackTrace();
+				}
+			}
+		}
+		return result;
+	}
+
 }
